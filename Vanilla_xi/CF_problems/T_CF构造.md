@@ -1611,6 +1611,50 @@ https://codeforces.com/problemset/problem/1733/D1
 
 
 
+
+
+https://codeforces.com/problemset/problem/1316/B
+
+* 首先注意到原本：1 2 3 4 5 6 7 8 9 10 ，
+
+   反转后：
+
+  * （k=5) 5 6 7 8  10，1 2 3 4
+  * （k=4) 4 5 6 7 8 9 10, 3 2 1
+
+  得到规律，后部分的数前移，前面的数看有多少个，奇数个：反转后拼接，偶数个：直接拼接
+
+  
+
+  O(n^2), 暴力枚举k
+
+  ```c++
+      for (int i=2;i<=n;i++) {
+          string tmp=s.substr(i);
+          string re=s.substr(1,i-1);
+          if ((n-i+1)&1) {
+              reverse(re.begin(),re.end());
+              tmp+=re;
+          }else {
+              tmp+=re;
+          }
+  
+          if (ans>tmp) {
+              ans=tmp;
+              cnt=i;
+          }
+          
+      }
+  ```
+
+  
+
+  
+
+
+
+
+
 ## 移动
 
 https://codeforces.com/problemset/problem/1697/C

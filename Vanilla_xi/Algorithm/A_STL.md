@@ -117,6 +117,7 @@ void solve() {
 multiset <int> s;
 multiset s(b.begin(),b.end());//copy
 
+//O(log n)
 s.insert(x);//插入  
 s.extract(x)//删除1个值为x的元素
 s.erase(x);//删除所有值为x的元素
@@ -136,6 +137,8 @@ s.resize();
 auto it = s.lower_bound();  
 auto it = s.upper_bound();
 
+//O(1)
+*s.begin();//查询
 
 int x=*(--it);//下一个
 cout<<*it;

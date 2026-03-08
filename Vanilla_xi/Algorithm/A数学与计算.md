@@ -527,9 +527,18 @@ mask &~(1<<d) //把d从mask里清除
 
 
 
+
+
+## 小结论：
+
 ```c++
-(pre[i]%P-pre[j]%P)%P=(pre[i]-pre[j])%P;
-(pre[i]%P+pre[j]%P)%P=(pre[i]+pre[j])%P
+(x % P - y % P) % P = (x - y) % P;
+(x % P + y % P) % P = (x + y) % P
+    
+(a % M - b) % M = (a - b) % M    
+(a - b % M) % M = (a - b) % M
+
+(a + xM) % M = a % M
 ```
 
 
