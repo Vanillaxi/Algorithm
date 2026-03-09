@@ -6,7 +6,7 @@
 
 ## 用法
 
-* set 里的元素自动升序  
+* set 里的元素自动升序  ，去重
 * 寻找：`auto it=s.find(3) ;`  找到值为3的迭代器， 记得检查it!=s.end();找不到的话会指向第n+1个元素，vector也可以find
   * 找到迭代器后，求值  `int x=*s.begin(), int y=*it;`
 
@@ -121,6 +121,7 @@ multiset s(b.begin(),b.end());//copy
 s.insert(x);//插入  
 s.extract(x)//删除1个值为x的元素
 s.erase(x);//删除所有值为x的元素
+s.erase(mp.begin());//用迭代器法
 
 auto it = s.find(x); //切记没有的话会返回 s.end();
 if (it != s.end()) s.erase(it);//删除指向x的迭代器，删一个
@@ -138,7 +139,8 @@ auto it = s.lower_bound();
 auto it = s.upper_bound();
 
 //O(1)
-*s.begin();//查询
+*s.begin();//查询min
+*prev(s.end());//查询max
 
 int x=*(--it);//下一个
 cout<<*it;
