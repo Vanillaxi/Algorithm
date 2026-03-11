@@ -251,6 +251,9 @@ auto it=find(a[j].begin(),a[j].end(),x);
 if (it!=a[j].end()) {
      a[j].erase(it);
 }
+
+//从0开始依次递增，填充pa
+iota(pa.begin(), pa.end(), 0);
 ```
 
 

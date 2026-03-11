@@ -349,13 +349,13 @@ https://codeforces.com/problemset/problem/1740/C
 
 * 对于含绝对值的题，我们可以放到数轴上分析
 
-<img src="T_CF构造.assets/image-20260307094443106-1772847885220-5.png" alt="image-20260307094443106" style="zoom:40%;" />
+<img src="CF构造.assets/image-20260307094443106-1772847885220-5.png" alt="image-20260307094443106" style="zoom:40%;" />
 
 * 先排序
 * 显然对放包者来说，图二更优，于是对于放包者来说应使得 p2>max(p1,p3) 或p2<min(p1,p3)；而拿包者显然应尽量选紧挨着p1或p3的p2，可是这样还不够（复杂度显然O(n*n)) ,
 * 进一步分析，我们现在可以把p1,p2,p3理解成块来分析
 
-<img src="T_CF构造.assets/image-20260307100224500-1772848948354-7.png" alt="image-20260307100224500" style="zoom: 33%;" />
+<img src="CF构造.assets/image-20260307100224500-1772848948354-7.png" alt="image-20260307100224500" style="zoom: 33%;" />
 
 显然下面两个会更优，因为对于图一来说，最终选定的p1要么是左要么是右，那么对于放包者来说，显然把p2/p3弄到边界是更优的
 
@@ -378,7 +378,55 @@ https://codeforces.com/problemset/problem/1740/C
 
 
 
+## 分段排序
 
+https://codeforces.com/problemset/problem/1896/C
+
+我们分别将a,b排序， 我们可以这样贪心：把b前x小的都对应到a的后x大 ，这样交替的分段排序
+
+a :  1 2 3 4 5 . . . x  x+1.... n
+
+b:  x+1  x+2,.....,1,2,3,...x
+
+
+
+实现的话，这种思路挺不错的
+
+```c++
+void solve() {
+    int n,x;
+    cin>>n>>x;
+    vector<int> a(n),b(n);
+    for (int i=0;i<n;i++) cin>>a[i];
+    for (int i=0;i<n;i++) cin>>b[i];
+
+    vector<int> pa(n),pb(n);
+    iota(pa.begin(),pa.end(),0);
+    iota(pb.begin(),pb.end(),0);
+    sort(pa.begin(),pa.end(),[&](int i,int j){return a[i]<a[j];});
+    sort(pb.begin(),pb.end(),[&](int i,int j){return b[i]<b[j];});
+
+    vector<int> ans(n);
+    for (int i=0;i<n;i++) {
+        ans[pa[i]]=b[pb[(i+x)%n]];
+    }
+
+    int cnt=0;
+    for (int i=0;i<n;i++) {
+        if (a[i]>ans[i]) cnt++;
+    }
+
+    if (cnt!=x) {
+        cout<<"NO\n";
+        return;
+    }
+
+    cout<<"YES\n";
+    for (int i=0;i<n;i++) {
+        cout<<ans[i]<<" \n"[i==n-1];
+    }
+}
+```
 
 
 
