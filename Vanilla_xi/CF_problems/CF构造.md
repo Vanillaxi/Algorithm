@@ -909,11 +909,12 @@ void solve() {
 
 
 
-#### 结论
+### 结论
 
 https://codeforces.com/problemset/problem/1790/E
 
 * **结论： a + b = 2 (a&b) + ( a^b )  = 2x** 
+  * 其中，a&b 是产生进位的位置，a^b 则不是
 * 那么题目转化为 ： a+b=2x  ,   a^b=x ,a&b=x/2
   * & :  那就两者都分配 x/2
   * ^ :  a=x+x/2, b=x/2  
@@ -921,17 +922,15 @@ https://codeforces.com/problemset/problem/1790/E
 
 
 
+* 结论：
 
-
-
-
-* 结论：对于 x=2^k-1,y<x, x&y=0, 因为y相当于在k位以内对x取反
+  对于 x=2^k-1,y<x, x&y=0, 因为y相当于在k位以内对x取反
 
 
 
 
 
-#### 贪心
+### 贪心
 
 https://codeforces.com/contest/2188/problem/D
 
@@ -1949,6 +1948,66 @@ void solve() {
     for (auto x:ans) {
         cout<<x<<" \n"[x==ans.back()];
     }
+}
+```
+
+
+
+
+
+https://codeforces.com/problemset/problem/2117/E
+
+![image-20260313134502494](CF构造.assets/image-20260313134502494.png)
+
+* 首先，我们不考虑删除，如果我们找到匹配的位置 a[i]=b[i], 那么我们就可以a[j]=b[j+1], b[x]=a[x+1]，将 1 到 i 的全都设置为相同的a[i]，此时 ans = i ，因此，我们的任务是最大化 i 
+* a[i] 变b[j]
+  * 对于 a[i], b[j]，i<j  只要二者是交替的即一个在奇数位，一个在偶数位，那么我们就可以a[i]=b[j] 
+  * 那么如果我们考虑删除一处的a[j],b[j], 奇偶对调，于是我们可以实现a[i]=b[j], i < j ,对于任意的 j
+* 对称的，我们也可以实现 b[i]=a[j] i<j
+* 我们继续考虑，a[i] 是否能变成 a[j] i<j
+  * 由上面的对称可知，a[i] 可以实现 a[i]=a[j] i<j , j !=i+1;
+
+* 从后往前遍历，O(n)
+
+
+
+```c++
+void solve() {
+    int n;
+    cin>>n;
+    vector<int> a(n+1),b(n+1);
+    for (int i=1;i<=n;i++) {
+        cin>>a[i];
+    }
+
+    for (int i=1;i<=n;i++) {
+        cin>>b[i];
+    }
+
+    vector<int> vis(n+1);
+    int ans=0;
+    if (a[n]==b[n]) {
+        cout<<n<<'\n';
+        return;
+    }
+
+
+    for (int i=n-1;i>=1;i--) {
+        if (a[i]==b[i]) {
+            ans=i;
+            break;
+        }
+
+        if ((a[i]==a[i+1])||(b[i]==b[i+1])||vis[a[i]]||vis[b[i]]) {
+            ans=i;
+            break;
+        }
+
+        vis[a[i+1]]++;
+        vis[b[i+1]]++;
+    }
+
+    cout<<ans<<'\n';
 }
 ```
 
