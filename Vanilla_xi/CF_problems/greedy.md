@@ -48,3 +48,11 @@ https://codeforces.com/contest/2207/problem/B
 
 ```
 
+
+
+# 倒序
+
+https://codeforces.com/contest/2208/problem/C
+
+从后往前推,得到公式，ans=0, 不需要管S, 如果要选任务，那么后面的任务（也就是ans）就得*(1-p[i]/100.0) ,然后ans+c[i]，每次贪心，ans=max(ans,c[i]+ans(1-p[i]/100.0))
+

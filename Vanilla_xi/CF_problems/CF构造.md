@@ -1055,6 +1055,13 @@ void solve() {
 
 
 
+https://codeforces.com/problemset/problem/1957/B
+
+* 如果k=2^(x)-1,那么，a[0]=k,a[i]=0;
+* 否则，或运算不可能会出现x个1，sum会大于k，于是我们令a[0]=2^(x-1),a[1]=k-a[0],a[i]=0
+
+
+
 
 
 ## 数形结合
@@ -1867,6 +1874,80 @@ https://codeforces.com/contest/1753/problem/A2
 
 
 
+
+
+## 01串
+
+### 模拟
+
+https://codeforces.com/problemset/problem/1889/A
+
+* cnt1!=cnt0, 那就不可能了，因为1要和0一一配对
+* 然后我们用deque存s
+  * dq.front()!=dq.back(): dq.pop_front(),dq.pop_back()
+  * 两个都为1：那就在前面插入01，
+  * 两个都为0：那就在后面插入01
+
+```c++
+void solve() {
+    int n;
+    cin>>n;
+
+    string s;
+    cin>>s;
+    int cnt0=0,cnt1=0;
+    for (int i=0;i<n;i++) {
+        if (s[i]=='0') cnt0++;
+        else cnt1++;
+    }
+
+    if (cnt0!=cnt1) {
+        cout<<"-1\n";
+        return;
+    }
+
+    vector<int> ans;
+    deque<char> dq;
+    for (int i=0;i<n;i++) {
+        dq.push_back(s[i]);
+    }
+
+    int d=0;//记录已经配对好的组数
+    while (!dq.empty()) {
+        if (dq.front()==dq.back()) {
+            if (dq.front()=='0') {
+                dq.push_back('0');
+                dq.push_back('1');
+                ans.push_back(n-d);
+            }else {
+                dq.push_front('1');
+                dq.push_back('0');
+                ans.push_back(0+d);
+            }
+            n+=2;
+        }
+
+        while (!dq.empty()&&dq.front()!=dq.back()) {
+            dq.pop_front();
+            dq.pop_back();
+            d++;
+        }
+    }
+
+    cout<<ans.size()<<'\n';
+    for (int i=0;i<ans.size();i++) {
+        cout<<ans[i]<<" ";
+    }
+    cout<<'\n';
+}
+```
+
+
+
+
+
+
+
 ## 序列
 
 https://codeforces.com/contest/2202/problem/C1
@@ -2010,6 +2091,21 @@ void solve() {
     cout<<ans<<'\n';
 }
 ```
+
+
+
+## 排列
+
+https://codeforces.com/problemset/problem/2084/C
+
+* 思路简单，实现时要仔细
+* 首先如果n是奇数，那必须要有一个a[i]=b[i], 否则全不等
+* 然后调换的话，注意到a[i],b[i] 是绑定的，我们得再检查一次两个数组，确认是1对1，否则----> "-1"
+  * n为奇数，首先得处理 把a[i]=b[i] 那位换到中间
+  * 然后我们以前 n/2 为参照，对后n/2进行重排
+    * 需要记录 ida[i], 即 i 在a[i] 的pos, 然后我们，遍历， b[i],a[n-i+1], 这两个如果不相等就互换，换的时候既要换a,b,还得换ida ,  我们换的是 ida[b[i]], 和n-i+1这两个位置
+
+
 
 
 
